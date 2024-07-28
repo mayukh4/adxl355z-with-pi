@@ -1,7 +1,20 @@
-# ADXL355 Accelerometer Data Collection System with Pi
+# ADXL355 Accelerometer Data Collection and Analysis System
 
-This system collects data from an ADXL355 accelerometer connected to a Raspberry Pi and streams it to a local computer for storage and analysis.
-Since the core libraries are written in c, making it much faster and more reliable.
+This system collects data from an ADXL355 accelerometer connected to a Raspberry Pi, streams it wirelessly over WiFi to a local computer for storage and analysis, and provides options for live plotting and post-recording analysis.
+
+## Quick Start
+
+For live plotting only:
+```bash
+./live_streamer.sh
+```
+
+For full data streaming and recording functionality:
+```bash
+./run_accl.sh
+```
+
+Note: The main scripts are written in C for optimal performance.
 
 ## System Components
 
@@ -13,9 +26,10 @@ Since the core libraries are written in c, making it much faster and more reliab
 
 ### On Raspberry Pi:
 ```
-/home/your_folder_name/accl_c/
+/home/bvex/accl_c/
 ├── accl_tx.c
 ├── accl_tx (compiled executable)
+├── accl3.py
 └── logs/ (created during execution)
 ```
 
@@ -24,6 +38,9 @@ Since the core libraries are written in c, making it much faster and more reliab
 /path/to/project/
 ├── accl_rx.c
 ├── run_accl.sh
+├── live_streamer.sh
+├── live_streamer.py
+├── accl_data_analysis.ipynb
 ├── logs/ (created during execution)
 └── outputs/ (created during execution)
 ```
@@ -49,7 +66,7 @@ Since the core libraries are written in c, making it much faster and more reliab
    ```
    Navigate to "Interfacing Options" > "SPI" and select "Yes" to enable it.
 
-3. Copy `accl_tx.c` to `/home/bvex/accl_c/` on the Raspberry Pi.
+3. Copy `accl_tx.c` and `accl3.py` to `/home/bvex/accl_c/` on the Raspberry Pi.
 
 4. Compile the transmitter program:
    ```bash
@@ -60,24 +77,32 @@ Since the core libraries are written in c, making it much faster and more reliab
 
 1. Ensure you have GCC installed for compiling C programs.
 
-2. Copy `accl_rx.c` and `run_accl.sh` to your project directory.
+2. Install required Python libraries:
+   ```bash
+   pip install numpy matplotlib pandas
+   ```
 
+3. Copy `accl_rx.c`, `run_accl.sh`, `live_streamer.sh`, `live_streamer.py`, and `accl_data_analysis.ipynb` to your project directory.
 
 ## Execution Instructions
 
 1. Ensure the ADXL355 is properly connected to the Raspberry Pi (see Pin Connections table below).
 
-2. On your local computer, navigate to the project directory and run:
+2. For live plotting only:
+   ```bash
+   ./live_streamer.sh
+   ```
+   This will start the `accl3.py` script on the Raspberry Pi and the `live_streamer.py` script on your local computer for real-time visualization.
+
+3. For full data streaming and recording:
    ```bash
    ./run_accl.sh
    ```
+   This script will compile both the transmitter (on Raspberry Pi) and receiver programs, start the data collection, and display the elapsed time.
 
-3. The script will compile both the transmitter (on Raspberry Pi) and receiver programs, start the data collection, and display the elapsed time.
+4. To stop the data collection, press Ctrl+C.
 
-   
-5. You would need to enter the pi's password multiple times.
-
-6. To stop the data collection, press Ctrl+C.
+5. For post-recording analysis, use the `accl_data_analysis.ipynb` Jupyter notebook on your local computer.
 
 ## Pin Connections
 
@@ -98,8 +123,22 @@ Note: Make sure to double-check these connections with your specific ADXL355 mod
 
 The collected data will be stored in binary files in the `outputs/` directory on your local computer. Each file contains 10 minutes of data and is named with the timestamp of when it was created.
 
+## Live Streaming
+
+The `live_streamer.sh` script provides real-time visualization of the accelerometer data. It starts the `accl3.py` script on the Raspberry Pi, which streams data over WiFi, and the `live_streamer.py` script on your local computer, which receives the data and creates a live plot.
+
+## Data Analysis
+
+Use the `accl_data_analysis.ipynb` Jupyter notebook on your local computer for post-recording analysis. This notebook provides tools for loading the binary data files, processing the accelerometer data, and creating various visualizations and analyses.
+
 ## Troubleshooting
 
+- If you encounter permission issues, ensure that the scripts are executable (`chmod +x script_name.sh`).
 - Check the log files in the `logs/` directory on both the Raspberry Pi and local computer for any error messages.
 - Verify that the SPI interface is enabled on the Raspberry Pi.
 - Ensure that the bcm2835 library is properly installed on the Raspberry Pi.
+- Make sure both the Raspberry Pi and local computer are on the same WiFi network.
+
+## Note on Performance
+
+The main data collection scripts (`accl_tx.c` and `accl_rx.c`) are written in C for optimal performance, allowing for high-speed data collection and transmission. Data is transmitted wirelessly over WiFi from the Raspberry Pi to the local computer.
