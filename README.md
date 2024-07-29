@@ -2,6 +2,9 @@
 
 This system collects data from an ADXL355 accelerometer connected to a Raspberry Pi, streams it wirelessly over WiFi to a local computer for storage and analysis, and provides options for live plotting and post-recording analysis.
 
+![IMG_6595](https://github.com/user-attachments/assets/fd3d1882-ac5f-4cc6-88a1-8f395acd1b52)
+
+
 ## Quick Start
 
 For live plotting only:
@@ -138,6 +141,11 @@ Use the `accl_data_analysis.ipynb` Jupyter notebook on your local computer for p
 - Verify that the SPI interface is enabled on the Raspberry Pi.
 - Ensure that the bcm2835 library is properly installed on the Raspberry Pi.
 - Make sure both the Raspberry Pi and local computer are on the same WiFi network.
+
+## Data streamer panel
+
+![0728-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/a577f8fe-b92e-4522-93c0-8648a3c19b7c)
+
 
 ## Note on Performance
 
