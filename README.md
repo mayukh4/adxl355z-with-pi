@@ -2,8 +2,7 @@
 
 This system collects data from an ADXL355 accelerometer connected to a Raspberry Pi, streams it wirelessly over WiFi to a local computer for storage and analysis, and provides options for live plotting and post-recording analysis.
 
-![IMG_6595](https://github.com/user-attachments/assets/fd3d1882-ac5f-4cc6-88a1-8f395acd1b52)
-
+![IMG_6595 2](https://github.com/user-attachments/assets/91e0ae85-dce5-481b-9e4c-6e3ffc797d12)
 
 ## Quick Start
 
